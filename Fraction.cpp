@@ -4,144 +4,172 @@
 #include <iostream>
 #include <string>
 
-Fraction& Fraction::operator= (Fraction frac) {
-	swap(*this, frac);
-	return *this;
+namespace fraction {
+
+// + operator
+Fraction operator+ (const Fraction& frac) {
+	return frac;
 }
 
-Fraction& Fraction::operator= (int number) {
-	swap(*this, Fraction(number));
-	return *this;
+//- operator
+Fraction operator- (const Fraction& frac) {
+	return frac * (-1);
 }
 
-
-const Fraction Fraction::operator+ () const {
-	return *this;
-}
-
-
-const Fraction Fraction::operator- () const {
-	return *this * (-1);
-}
-
-
-bool Fraction::operator== (const Fraction& frac) const { 
+bool Fraction::operator== (const Fraction& frac) const { //frac1==frac2
 	return (this->m_numerator == frac.m_numerator && this->m_denominator == frac.m_denominator);
 }
 
-bool Fraction::operator== (int number) const {
-	return *this==Fraction(number);
+bool operator== (const Fraction& lhs, int number) { //lhs==number
+	return lhs==Fraction(number);
 }
 
-bool operator== (int number, const Fraction& frac) {
-	return frac==number;
+bool operator== (int number, const Fraction& rhs) { //number==rhs
+	return rhs==number;
 }
 
-
-bool Fraction::operator!= (const Fraction& frac) const {
-	return !(*this==frac);
+// != operators
+bool operator!= (const Fraction& lhs, const Fraction& rhs) { //lhs!=rhs
+	return !(lhs==rhs);
 }
 
-bool Fraction::operator!= (int number) const {
-	return !(*this==number);
+bool operator!= (const Fraction& lhs, int number) { //lhs==number
+	return !(lhs==number);
 }
 
-bool operator!= (int number, const Fraction& frac) {
-	return !(number==frac);
-}
-
-
-bool Fraction::operator< (const Fraction& frac) const {
-	return (*this-frac).sign() < 0;
-}
-
-bool Fraction::operator< (int number) const {
-	return (*this-number).sign() < 0;
-}
-
-bool operator< (int number, const Fraction& frac) {
-	return (number-frac).sign() < 0;
+bool operator!= (int number, const Fraction& rhs) { //number==rhs
+	return !(rhs==number);
 }
 
 
-bool Fraction::operator<= (const Fraction& frac) const {
-	return !(frac < *this);
+// < operators
+bool operator< (const Fraction& lhs, const Fraction& rhs) { //lhs<rhs
+	return (lhs-rhs).sign() < 0;
 }
 
-bool Fraction::operator<= (int number) const {
-	return !(number < *this);
+bool operator< (const Fraction& lhs, int number) { //lhs<number
+	return lhs < Fraction(number);
 }
 
-bool operator<= (int number, const Fraction& frac) {
-	return !(frac < number);
-}
-
-
-bool Fraction::operator> (const Fraction& frac) const {
-	return frac < *this;
-}
-
-bool Fraction::operator> (int number) const {
-	return number < *this;
-}
-
-bool operator> (int number, const Fraction& frac) {
-	return frac < number;
+bool operator< (int number, const Fraction& rhs) { //number<rhs
+	return Fraction(number) < rhs;
 }
 
 
-bool Fraction::operator>= (const Fraction& frac) const {
-	return !(*this < frac);
+// <= operators
+bool operator<= (const Fraction& lhs, const Fraction& rhs) { //lhs<=rhs
+	return !(rhs < lhs);
 }
 
-bool Fraction::operator>= (int number) const {
-	return !(*this < number);
+bool operator<= (const Fraction& lhs, int number) { //lhs<=number
+	return lhs<=Fraction(number);
 }
 
-bool operator>= (int number, const Fraction& frac) {
-	return !(number < frac);
+bool operator<= (int number, const Fraction& rhs) { //number<=rhs
+	return Fraction(number) <= rhs;
 }
 
 
-const Fraction Fraction::operator+ (const Fraction& frac) const {
-	// a/b + c/d = (ad+bc)/bd
-	if (this->m_overflowProtection) {
-		int numerator1 = SafeArithmetic::multiply(this->m_numerator, frac.m_denominator);
-		int numerator2 = SafeArithmetic::multiply(this->m_denominator, frac.m_numerator);
-		int numerator = SafeArithmetic::add(numerator1, numerator2);
-
-		int denominator = SafeArithmetic::multiply(this->m_denominator,frac.m_denominator);
-		return Fraction(numerator, denominator, this->m_overflowProtection);
-	}
-	else {
-		int numerator = this->m_numerator*frac.m_denominator + frac.m_numerator*this->m_denominator;
-		int denominator = this->m_denominator * frac.m_denominator;
-		return Fraction(numerator, denominator, this->m_overflowProtection);
-	}
+// > operators
+bool operator> (const Fraction& lhs, const Fraction& rhs) { //lhs>rhs
+	return rhs < lhs;
 }
 
-const Fraction Fraction::operator+ (int number) const {
-	return (*this) + Fraction(number);
+bool operator> (const Fraction& lhs, int number) { //lhs>number
+	return lhs > Fraction(number);
 }
 
-const Fraction operator+ (int number, const Fraction& frac) {
+bool operator> (int number, const Fraction& rhs) { //number>rhs
+	return Fraction(number) > rhs;
+}
+
+
+// >= operators
+bool operator>= (const Fraction& lhs, const Fraction& rhs) { //lhs>=rhs
+	return rhs <= lhs;
+}
+
+bool operator>= (const Fraction& lhs, int number) { //lhs>=number
+	return lhs >= Fraction(number);
+}
+
+bool operator>= (int number, const Fraction& rhs) { //number>=rhs
+	return Fraction(number) >= rhs;
+}
+
+
+// + operators
+Fraction operator+ (Fraction lhs, const Fraction& rhs) { //lhs+rhs
+	lhs+=rhs;
+	return lhs;
+}
+
+Fraction operator+ (Fraction lhs, int number) { //lhs+number
+	lhs+=number;
+	return lhs;
+}
+
+Fraction operator+ (int number, const Fraction& rhs) { //number+rhs
 	//number+frac == frac+number
-	return frac+number;
+	return rhs+number;
 }
 
 
 Fraction& Fraction::operator+= (const Fraction& frac) {
-	Fraction new_frac = (*this) + frac;
-	return (*this) = new_frac;
+	/* 
+				   ad+bc
+				  -------
+	a/b + c/d =   gcd(b,d)
+				------------
+				  lcm(b,d)
+
+	OR:
+
+				        d               b
+				 a * -------- + c * --------
+	a/b + c/d =      gcd(b,d)       gcd(b,d)
+				 ----------------------------
+				            lcm(b,d)
+	*/
+	int a = this->m_numerator;
+	int b = this->m_denominator;
+
+	int c = frac.m_numerator;
+	int d = frac.m_denominator;
+
+	int gcd = this->gcd(b, d);
+
+	if (this->m_overflowProtection) {
+		//a*d/gcd
+		int numerator1 = SafeArithmetic::multiply(a, SafeArithmetic::divide(d,gcd));
+		//c*b/gcd
+		int numerator2 = SafeArithmetic::multiply(c, SafeArithmetic::divide(b,gcd));
+
+		//a*d/gcd + c*b/gcd
+		int numerator = SafeArithmetic::add(numerator1, numerator2);
+
+		int denominator = SafeArithmetic::multiply(b, SafeArithmetic::divide(d,gcd));
+
+		*this = Fraction(numerator, denominator, this->m_overflowProtection);
+		return *this;
+	}
+	else {
+		int lcm = b*(d/gcd);
+
+		int numerator = a*d/gcd + c*b/gcd;
+		int denominator = lcm;
+		*this = Fraction(numerator, denominator, this->m_overflowProtection);
+		return *this;
+	}
 }
 
-Fraction& Fraction::operator+= (int number) {
-	Fraction new_frac = (*this) + number;
-	return (*this) = new_frac;
+Fraction& operator+= (Fraction& lhs, int number) { //lhs+=number
+	lhs+=Fraction(number);
+	return lhs;
 }
 
 
-const Fraction Fraction::operator- (const Fraction& frac) const {
+Fraction Fraction::operator- (const Fraction& frac) const {
 	// a/b - c/d = (ad-bc)/bd
 	if (this->m_overflowProtection) {
 		int numerator1 = SafeArithmetic::multiply(this->m_numerator, frac.m_denominator);
@@ -158,11 +186,11 @@ const Fraction Fraction::operator- (const Fraction& frac) const {
 	}
 }
 
-const Fraction Fraction::operator- (int number) const {
+Fraction Fraction::operator- (int number) const {
 	return (*this) - Fraction(number);
 }
 
-const Fraction operator- (int number, const Fraction& frac) {
+Fraction operator- (int number, const Fraction& frac) {
 	//number-frac = -(frac-number);
 	return -(frac-number);
 }
@@ -179,7 +207,7 @@ Fraction& Fraction::operator-= (int number) {
 }
 
 
-const Fraction Fraction::operator* (const Fraction& frac) const {
+Fraction Fraction::operator* (const Fraction& frac) const {
 	// a/b * c/d = ac/bd
 	if (this->m_overflowProtection) {
 		int numerator = SafeArithmetic::multiply(this->m_numerator, frac.m_numerator);
@@ -194,7 +222,7 @@ const Fraction Fraction::operator* (const Fraction& frac) const {
 	}
 }
 
-const Fraction Fraction::operator* (int number) const {
+Fraction Fraction::operator* (int number) const {
 	return (*this) * Fraction(number);
 }
 
@@ -215,7 +243,7 @@ Fraction& Fraction::operator*= (int number) {
 }
 
 
-const Fraction Fraction::operator/ (const Fraction& frac) const {
+Fraction Fraction::operator/ (const Fraction& frac) const {
 	// a/b / c/d = ad/bc
 	if (this->m_overflowProtection) {
 		int numerator = SafeArithmetic::multiply(this->m_numerator, frac.m_denominator);
@@ -230,7 +258,7 @@ const Fraction Fraction::operator/ (const Fraction& frac) const {
 	}
 }
 
-const Fraction Fraction::operator/ (int number) const {
+Fraction Fraction::operator/ (int number) const {
 	return (*this) / Fraction(number);
 }
 
@@ -255,8 +283,12 @@ std::ostream& operator<< (std::ostream& os, const Fraction& frac) {
 	int numerator = frac.m_numerator;
 	int denominator = frac.m_denominator;
 
-	if (0 == numerator && 0 == denominator)
-		return os << "NaN";
+	if (0 == numerator) {
+		if (0== denominator)
+			return os << "NaN";
+		else
+			return os << "0";
+	}
 	else if (1 == denominator)
 		return os << numerator;
 	return os << numerator << "/" << denominator;
@@ -310,15 +342,12 @@ std::istream& operator>> (std::istream& is, Fraction& frac) {
 }
 
 
-Fraction::operator float() const {
+float Fraction::toFloat() const {
 	if (0==this->m_denominator)
 		throw DivisionByZeroException();
 
 	return (float)this->m_numerator / (float)this->m_denominator;
 }
 
-
-void swap(Fraction& frac1, Fraction& frac2) {
-		std::swap(frac1.m_numerator, frac2.m_numerator);
-		std::swap(frac1.m_denominator, frac2.m_denominator);
-}
+//namespace fraction { 
+} 
