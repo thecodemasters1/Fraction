@@ -1,4 +1,4 @@
-#if !defined SAFEARITHMETIC_HPP_
+#ifndef SAFEARITHMETIC_HPP_
 #define SAFEARITHMETIC_HPP_
 
 class SafeArithmetic
