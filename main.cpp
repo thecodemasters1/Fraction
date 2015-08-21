@@ -1,10 +1,12 @@
 #include "Fraction.hpp"
 #include <iostream>
+#include <vector>
+#include <memory>
 
 int main() {
-	Fraction frac(2,3,true);
-	Fraction frac2 = 5 - frac;
-	//std::cin >> frac;
+	fraction::Fraction frac(2,3);
+	fraction::Fraction frac2(2,4);
+	std::cout << (frac+frac2) << std::endl;
 
-	std::cout << "frac = " << frac << std::endl;
+	//std::cout << "frac = " << frac << std::endl;
 }
