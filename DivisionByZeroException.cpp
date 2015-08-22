@@ -5,7 +5,7 @@ DivisionByZeroException::DivisionByZeroException()
 {
 }
 
-const char* DivisionByZeroException::what() const {
+const char* DivisionByZeroException::what() const noexcept {
 	return NULL;
 }
 

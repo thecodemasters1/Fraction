@@ -8,7 +8,7 @@ class DivisionByZeroException : public std::exception
 public:
 	DivisionByZeroException();
 
-	virtual const char* what() const; 
+	virtual const char* what() const noexcept; 
 	~DivisionByZeroException();
 };
 
