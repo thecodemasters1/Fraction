@@ -6,10 +6,10 @@
 class NumericOverflowException : public std::exception
 {
 public:
-	NumericOverflowException();
+	NumericOverflowException() {}
 
-	virtual const char* what() const; 
-	~NumericOverflowException();
+	virtual const char* what() const noexcept { return NULL; }
+	~NumericOverflowException() {}
 };
 
 #endif
