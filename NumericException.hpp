@@ -29,6 +29,7 @@ public:
 
 	/* destructor */
 	virtual ~NumericException() = 0;
+
 protected:
 
 	//-- protected data members --//
