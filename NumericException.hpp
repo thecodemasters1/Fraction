@@ -1,3 +1,11 @@
+/**
+* Author: Lahav Schlesinger
+**/
+
+/*
+* In this file we have the declaration of the DivisionByZeroException class
+*/
+
 #ifndef NUMERICEXCEPTION_HPP_
 #define NUMERICEXCEPTION_HPP_
 
