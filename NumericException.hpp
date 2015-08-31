@@ -3,7 +3,7 @@
 **/
 
 /*
-* In this file we have the declaration of the DivisionByZeroException class
+* In this file we have the declaration of the NumericException class
 */
 
 #ifndef NUMERICEXCEPTION_HPP_
