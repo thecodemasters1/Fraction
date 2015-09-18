@@ -165,7 +165,7 @@ int SafeArithmetics::divide(int num1, int num2) {
 	//denominator is -1.
 	if (INT_MIN == num1 && -1 == num2)
 		throw NumericOverflowException();
-
+	// T: what about dividing by zero?
 	//If no overflow would occur - return num1/num2
 	return num1 / num2;
 }
